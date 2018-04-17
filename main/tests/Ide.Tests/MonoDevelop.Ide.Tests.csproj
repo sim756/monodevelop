@@ -134,7 +134,6 @@
     <Compile Include="MonoDevelop.Ide.Tasks\CommentTasksProviderTests.Controller.cs" />
     <Compile Include="MonoDevelop.Ide.Composition\CompositionManager.CachingTests.cs" />
     <Compile Include="MonoDevelop.Ide.RoslynServices\MonoDevelopProjectCacheHostServiceTests.cs" />
-    <Compile Include="MonoDevelop.Ide.RoslynServices\ObjectReference.cs" />
     <Compile Include="MonoDevelop.Ide\RoslynSearchCategoryTests.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
