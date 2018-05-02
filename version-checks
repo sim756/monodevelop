@@ -17,8 +17,8 @@ DEP[0]=md-addins
 DEP_NAME[0]=MDADDINS
 DEP_PATH[0]=${top_srcdir}/../md-addins
 DEP_MODULE[0]=git@github.com:xamarin/md-addins.git
-DEP_NEEDED_VERSION[0]=a79d3763532e98781f7885fa2bb03bdecb2069f0
-DEP_BRANCH_AND_REMOTE[0]="d15-7 origin/d15-7"
+DEP_NEEDED_VERSION[0]=c30b84012b9527b3d2a3b07bf20f33185c94e949
+DEP_BRANCH_AND_REMOTE[0]="jstedfast-azure-cli-bump-d15-7 origin/jstedfast-azure-cli-bump-d15-7"
 
 # heap-shot
 DEP[1]=heap-shot
