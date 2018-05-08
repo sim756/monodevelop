@@ -175,26 +175,36 @@ namespace MonoDevelop.Ide.TypeSystem
 
 		internal static event EventHandler LoadingFinished;
 
-		static void OnLoadingFinished (EventArgs e)
+		event EventHandler workspaceLoaded;
+		/// <summary>
+		/// Occurs when the workspace is loaded. Also occurs on subscription if the workspace is already loaded.
+		/// </summary>
+		public event EventHandler WorkspaceLoaded {
+			add {
+				if (!IsLoading)
+					value (this, EventArgs.Empty);
+				workspaceLoaded += value;
+			}
+			remove {
+				workspaceLoaded -= value;
+			}
+		}
+
+		internal bool IsLoading { get; private set; }
+
+		internal void ShowStatusIcon ()
 		{
-			var handler = LoadingFinished;
-			if (handler != null)
-				handler (null, e);
+			IsLoading = true;
+			TypeSystemService.ShowTypeInformationGatheringIcon ();
 		}
 
 		internal void HideStatusIcon ()
 		{
 			TypeSystemService.HideTypeInformationGatheringIcon (() => {
-				OnLoadingFinished (EventArgs.Empty);
-				WorkspaceLoaded?.Invoke (this, EventArgs.Empty);
+				LoadingFinished?.Invoke (this, EventArgs.Empty);
 			});
-		}
-
-		public event EventHandler WorkspaceLoaded;
-
-		internal void ShowStatusIcon ()
-		{
-			TypeSystemService.ShowTypeInformationGatheringIcon ();
+			IsLoading = false;
+			workspaceLoaded?.Invoke (this, EventArgs.Empty);
 		}
 
 		async void HandleActiveConfigurationChanged (object sender, EventArgs e)
@@ -345,10 +355,7 @@ namespace MonoDevelop.Ide.TypeSystem
 		internal ProjectId GetProjectId (MonoDevelop.Projects.Project p)
 		{
 			lock (projectIdMap) {
-				ProjectId result;
-				if (projectIdMap.TryGetValue (p, out result))
-					return result;
-				return null;
+				return projectIdMap.TryGetValue (p, out var result) ? result : null;
 			}
 		}
 
@@ -368,21 +375,14 @@ namespace MonoDevelop.Ide.TypeSystem
 		ProjectData GetProjectData (ProjectId id)
 		{
 			lock (projectIdMap) {
-				ProjectData result;
-
-				if (projectDataMap.TryGetValue (id, out result)) {
-					return result;
-				}
-				return null;
+				return projectDataMap.TryGetValue (id, out var result) ? result : null;
 			}
 		}
 
 		ProjectData CreateProjectData (ProjectId id)
 		{
 			lock (projectIdMap) {
-				var result = new ProjectData (id);
-				projectDataMap [id] = result;
-				return result;
+				return projectDataMap [id] = new ProjectData (id);
 			}
 		}
 
@@ -435,11 +435,7 @@ namespace MonoDevelop.Ide.TypeSystem
 			
 			public DocumentId GetDocumentId (string name)
 			{
-				DocumentId result;
-				if (!documentIdMap.TryGetValue (name, out result)) {
-					return null;
-				}
-				return result;
+				return documentIdMap.TryGetValue (name, out DocumentId result) ? result : null;
 			}
 
 			internal void RemoveDocument (string name)
