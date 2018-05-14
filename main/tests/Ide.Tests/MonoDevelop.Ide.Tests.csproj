@@ -148,6 +148,9 @@
     <Compile Include="MonoDevelop.Ide.RoslynServices.Options\MonoDevelopOptionPersisterTests.cs" />
     <Compile Include="TypeForwarders.cs" />
     <Compile Include="MonoDevelop.Ide.RoslynServices\ExportedServicesAndWorkspaceServicesTests.cs" />
+    <Compile Include="MonoDevelop.Ide.TypeSystem\MonoDevelopMetadataReferenceManagerTests.cs" />
+    <Compile Include="MonoDevelop.Ide.TypeSystem\FileChangeTrackerTests.cs" />
+    <Compile Include="MonoDevelop.Ide.TypeSystem\MonoDevelopMetadataReferenceManager.MetadataReferenceCacheTests.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -222,6 +225,7 @@
     <Folder Include="MonoDevelop.Ide.Composition\" />
     <Folder Include="MonoDevelop.Ide.RoslynServices\" />
     <Folder Include="MonoDevelop.Ide.RoslynServices.Options\" />
+    <Folder Include="MonoDevelop.Ide.TypeSystem\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
