@@ -399,7 +399,7 @@ namespace MonoDevelop.Components.DockNotebook
 				return;
 			}
 			pages.Remove (tab);
-			if (!previewPages.Exists (s => s == tab)) {
+			if (!previewPages.Contains (tab)) {
 				previewPages.Add (tab);
 			}
 
