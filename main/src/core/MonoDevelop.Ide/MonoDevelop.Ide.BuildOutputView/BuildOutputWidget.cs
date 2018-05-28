@@ -580,7 +580,10 @@ namespace MonoDevelop.Ide.BuildOutputView
 
 			Task.Run (async () => {
 				try {
-					BuildOutput.ProcessProjects ();
+					var metadata = new Dictionary<string, string> ();
+					var timer = Counters.ProcessBuildLog.BeginTiming (metadata);
+
+					BuildOutput.ProcessProjects (showDiagnostics, metadata);
 
 					await InvokeAsync (() => {
 						currentSearch = null;
@@ -596,13 +599,9 @@ namespace MonoDevelop.Ide.BuildOutputView
 						// Expand root nodes and nodes with errors
 						ExpandErrorOrWarningsNodes (treeView, buildOutputDataSource, false);
 						processingCompletion.TrySetResult (null);
-
-						if (showDiagnostics) {
-							Counters.DiagnosticsViewSelected++;
-						} else {
-							Counters.NormalViewSelected++;
-						}
 					});
+
+					timer.End ();
 				} catch (Exception ex) {
 					processingCompletion.TrySetException (ex);
 				}
