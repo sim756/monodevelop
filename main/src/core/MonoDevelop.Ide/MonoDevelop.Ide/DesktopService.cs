@@ -403,6 +403,9 @@ namespace MonoDevelop.Ide
 
 		internal static string GetNativeRuntimeDescription () => PlatformService.GetNativeRuntimeDescription ();
 
-		public static IPlatformTelemetryDetails PlatformTelemetry () => PlatformService.PlatformTelemetryDetails ();
+		static readonly Lazy<IPlatformTelemetryDetails> platformTelemetryDetails = new Lazy<IPlatformTelemetryDetails> (() => PlatformService.CreatePlatformTelemetryDetails ());
+		public static IPlatformTelemetryDetails PlatformTelemetry {
+			get => platformTelemetryDetails.Value;
+		}
 	}
 }

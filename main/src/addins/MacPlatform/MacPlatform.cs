@@ -1144,14 +1144,9 @@ namespace MonoDevelop.MacIntegration
 			proc.Start ();
 		}
 
-		MacTelemetryDetails details;
-		internal override IPlatformTelemetryDetails PlatformTelemetryDetails ()
+		internal override IPlatformTelemetryDetails CreatePlatformTelemetryDetails ()
 		{
-			if (details == null) {
-				details = MacTelemetryDetails.CreateTelemetryDetails ();
-			}
-
-			return details;
+			return MacTelemetryDetails.CreateTelemetryDetails ();
 		}
 	}
 
