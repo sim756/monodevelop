@@ -581,7 +581,7 @@ namespace MonoDevelop.Ide.BuildOutputView
 
 			Task.Run (async () => {
 				try {
-					var metadata = new Dictionary<string, string> ();
+					var metadata = new BuildOutputCounterMetadata ();
 					using (Counters.ProcessBuildLog.BeginTiming (metadata)) {
 						BuildOutput.ProcessProjects (showDiagnostics, metadata);
 
