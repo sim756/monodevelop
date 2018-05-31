@@ -108,12 +108,14 @@
     <Compile Include="MonoDevelop.Core\ProgressMonitorTests.cs" />
     <Compile Include="MonoDevelop.Projects\DotNetCoreFileWatcherTests.cs" />
     <Compile Include="MonoDevelop.Core\InstrumentationTests.cs" />
+    <Compile Include="MonoDevelop.FSW\FileChangeTrackerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="MonoDevelop.Core\" />
     <Folder Include="MonoDevelop.Core.Assemblies\" />
     <Folder Include="MonoDevelop.Projects\" />
     <Folder Include="MonoDevelop.Core.Execution\" />
+    <Folder Include="MonoDevelop.FSW\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\core\MonoDevelop.Core\MonoDevelop.Core.csproj">
