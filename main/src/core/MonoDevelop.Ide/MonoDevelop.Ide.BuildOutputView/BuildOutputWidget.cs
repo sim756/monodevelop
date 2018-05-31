@@ -581,27 +581,25 @@ namespace MonoDevelop.Ide.BuildOutputView
 			Task.Run (async () => {
 				try {
 					var metadata = new Dictionary<string, string> ();
-					var timer = Counters.ProcessBuildLog.BeginTiming (metadata);
+					using (Counters.ProcessBuildLog.BeginTiming (metadata)) {
+						BuildOutput.ProcessProjects (showDiagnostics, metadata);
 
-					BuildOutput.ProcessProjects (showDiagnostics, metadata);
+						await InvokeAsync (() => {
+							currentSearch = null;
+							searchEntry.Entry.Text = String.Empty;
+							Find (null);
 
-					await InvokeAsync (() => {
-						currentSearch = null;
-						searchEntry.Entry.Text = String.Empty;
-						Find (null);
+							var buildOutputDataSource = new BuildOutputDataSource (BuildOutput.GetRootNodes (showDiagnostics));
+							(treeView.Columns [0].Views [0] as BuildOutputTreeCellView).BuildOutputNodeField = buildOutputDataSource.BuildOutputNodeField;
 
-						var buildOutputDataSource = new BuildOutputDataSource (BuildOutput.GetRootNodes (showDiagnostics));
-						(treeView.Columns [0].Views [0] as BuildOutputTreeCellView).BuildOutputNodeField = buildOutputDataSource.BuildOutputNodeField;
+							treeView.DataSource = buildOutputDataSource;
+							cellView.OnDataSourceChanged ();
 
-						treeView.DataSource = buildOutputDataSource;
-						cellView.OnDataSourceChanged ();
-
-						// Expand root nodes and nodes with errors
-						ExpandErrorOrWarningsNodes (treeView, buildOutputDataSource, false);
-						processingCompletion.TrySetResult (null);
-					});
-
-					timer.End ();
+							// Expand root nodes and nodes with errors
+							ExpandErrorOrWarningsNodes (treeView, buildOutputDataSource, false);
+							processingCompletion.TrySetResult (null);
+						});
+					}
 				} catch (Exception ex) {
 					processingCompletion.TrySetException (ex);
 				}
