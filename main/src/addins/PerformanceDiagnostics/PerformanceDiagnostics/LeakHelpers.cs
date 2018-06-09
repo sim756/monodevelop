@@ -1,4 +1,4 @@
-﻿//
+//
 // LeakHelpers.cs
 //
 // Author:
@@ -39,8 +39,10 @@ namespace PerformanceDiagnosticsAddIn
 		const System.Reflection.BindingFlags privateStatic = System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic;
 		static Dictionary<IntPtr, WeakReference> NSObjectDict {
 			get {
-				var fieldInfo = typeof (ObjCRuntime.Runtime).GetField ("object_map", privateStatic);
-				return (Dictionary<IntPtr, WeakReference>)fieldInfo.GetValue (null);
+				//sim756: for mac....Objective-C...?
+				//var fieldInfo = typeof (ObjCRuntime.Runtime).GetField ("object_map", privateStatic);
+				//return (Dictionary<IntPtr, WeakReference>)fieldInfo.GetValue (null);
+				return default (Dictionary<IntPtr, WeakReference>);
 			}
 		}
 
